@@ -14,6 +14,10 @@ label {
     font-weight: bold;
 }
 
+label {
+    font-size: 18px;
+}
+
 .register-container h1 {
     color: #FDEFDA;
     text-align: center;
@@ -26,21 +30,6 @@ label {
 .register-container h1:hover {
     color: #c7e0f4;
     text-shadow: 2px 2px 5px #1167b1;
-}
-
-.login-link {
-    margin-top: 15px;
-    text-align: center;
-    color: #1167b1;
-}
-
-.login-link a {
-    color: #004578;
-    text-decoration: underline;
-}
-
-.login-link a:hover {
-    color: #d0efff;
 }
 
 form {
@@ -73,8 +62,8 @@ input {
 }
 
 button {
-    background-color: #005a9e;
-    color: #d0efff;
+    background-color: #FD9334;
+    color: #F8EFEF;
     padding: 15px;
     border: none;
     border-radius: 3px;
@@ -88,5 +77,21 @@ button {
 }
 
 button:hover {
-    background-color: #004578;
+    background-color: #dc6b07;
+}
+
+.login-link {
+    margin-top: 15px;
+    text-align: center;
+    color: #F8EFEF;
+}
+
+.login-link a {
+    color: #FD9334;
+    text-decoration: underline;
+}
+
+.login-link a:hover {
+    color: #F8EFEF;
+    transition: color 0.3s ease;
 }
