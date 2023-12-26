@@ -1,0 +1,92 @@
+body {
+    background-color: #FDEFDA;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.register-container h1,
+.head-title,
+label {
+    font-weight: bold;
+}
+
+.register-container h1 {
+    color: #FDEFDA;
+    text-align: center;
+    font-size: 50px;
+    transition: color 0.3s ease;
+    margin: 0;
+    padding: 0;
+}
+
+.register-container h1:hover {
+    color: #c7e0f4;
+    text-shadow: 2px 2px 5px #1167b1;
+}
+
+.login-link {
+    margin-top: 15px;
+    text-align: center;
+    color: #1167b1;
+}
+
+.login-link a {
+    color: #004578;
+    text-decoration: underline;
+}
+
+.login-link a:hover {
+    color: #d0efff;
+}
+
+form {
+    background-color: #D34937;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    width: 450px;
+}
+
+label {
+    color: #FFFF;
+    display: block;
+    margin: 10px 0 5px;
+}
+
+input {
+    width: 100%;
+    height: 45px;
+    font-size: 18px;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #FFFFFF;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 10px;
+    background-color: transparent;
+    color: #FFFFFF;
+}
+
+button {
+    background-color: #005a9e;
+    color: #d0efff;
+    padding: 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+    font-size: 15px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #004578;
+}
