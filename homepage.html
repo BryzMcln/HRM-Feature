@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <h1>Welcome, <span id="user-name"></span>!</h1>
+    </header>
+
+    <main>
+        <section class="sales-section">
+            <h2>Sales Progression</h2>
+            <div class="sales-graph" id="sales-graph">
+                <!-- Sales progression will be displayed here -->
+            </div>
+        </section>
+
+        <section class="achievements-section">
+            <h2>Achievements</h2>
+            <ul class="achievements-list" id="achievements-list">
+                <!-- Achievements will be displayed here -->
+            </ul>
+        </section>
+
+        <section class="points-section">
+            <h2>Points Balance</h2>
+            <p>You have <span id="points-amount"></span> points.</p>
+        </section>
+
+        <section class="redemption-preview">
+            <h2>Points Redeeming</h2>
+            <button class="btn">Redeem Points</button>
+            <!-- Clicking this button will lead to redemption page -->
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
