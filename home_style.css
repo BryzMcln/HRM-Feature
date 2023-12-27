@@ -86,14 +86,6 @@ h2 {
 
 .collection {
     display: flex;
-    justify-content: center;
-}
-
-.rewards {
-    margin: 1rem;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-radius: 0.25rem;
 }
 
 .credit-balance {
@@ -118,15 +110,34 @@ h2 {
     cursor: pointer;
 }
 
+.rewards {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+}
+
 .rewards h3 {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+    font-size: 18px;
 }
 
 .rewards ul {
     list-style-type: none;
     padding: 0;
+    text-align: left;
 }
 
 .rewards li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
+    padding-left: 0.5rem;
+}
+
+.rewards li p {
+    font-size: 14px;
+    border-left: 3px solid #D34937;
+    padding: 10px;
+    background-color: #F8EFEF;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
