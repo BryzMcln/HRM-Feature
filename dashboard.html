@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="home_style.css" />
+    <title>Profile</title>
+    <script>
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="logo.png" alt="Website Logo" class="logo-image" />
+                <h1 class="site-title">OneFamilyHR</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="profile.php">Profile</a></li>
+                    <li><a href="contact.php">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="user-welcome" id="userWelcome">
+        <h2>Welcome, <span id="userName">
+                <?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest'; ?>
+            </span></h2> <!-- Displaying the user's name or 'Guest' -->
+        <div class="collection">
+            <section class="credit-balance">
+                <h3>Credit Balance</h3>
+                <p>Credits:</p>
+                <h1>305.75</h1>
+                <button>View Details</button>
+                <button>Redeem</button>
+                <p>Max: 500.00</p>
+            </section>
+
+            <section class="rewards">
+                <h3>Rewards</h3>
+                <ul>
+                    <li>05/17/2022 - 0.23 credits - " Congratulations on May 17 , 2022 ! Your hard work earned you 0.23
+                        credits
+                        - fantastic job ! " </li>
+                    <li>10/12/2022 - 0.23 credits - " As of October 12 , 2022 , your sales efforts have resulted in 0.23
+                        credits
+                        . Great progress ! " </li>
+                    <li>12/08/2022 - 0.23 credits - " On December 8 , 2022 , you've earned 0.23 credits - a 350 300 250
+                        200
+                        150
+                        100 50 0</li>
+                </ul>
+            </section>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
