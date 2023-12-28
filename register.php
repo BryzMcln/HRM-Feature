@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
 
     // Check if the user exists based on provided details (e.g., first name, last name, email, contact number)
-    $checkUserQuery = "SELECT employee_id FROM employees WHERE first_name = ? AND last_name = ? AND email = ? AND contactno = ?";
+    $checkUserQuery = "SELECT idemployees FROM employees WHERE first_name = ? AND last_name = ? AND email = ? AND contactno = ?";
     $stmtCheck = $conn->prepare($checkUserQuery);
     $stmtCheck->bind_param("ssss", $firstName, $lastName, $email, $phoneNum);
     $stmtCheck->execute();
@@ -20,10 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     if ($result->num_rows > 0) {
         // User exists, proceed to create a user in the 'user' table
         $employeeData = $result->fetch_assoc();
-        $employeeId = $employeeData['employee_id'];
+        $employeeId = $employeeData['idemployees'];
 
         // Insert user into the 'user' table along with the fetched employee ID
-        $insertUserQuery = "INSERT INTO user (user_id, employee_id, username, password, created_at) VALUES (DEFAULT, ?, ?, ?, NOW())";
+        $insertUserQuery = "INSERT INTO user (user_id, employees_id, username, password, created_at) VALUES (DEFAULT, ?, ?, ?, NOW())";
         $stmtInsertUser = $conn->prepare($insertUserQuery);
         $stmtInsertUser->bind_param("iss", $employeeId, $firstName, $hashedPassword);
         
