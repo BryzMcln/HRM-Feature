@@ -1,3 +1,51 @@
+
+Absolutely! Here's a more organized separation of the PHP code for calculating the credit balance from the HTML content:
+
+php
+Copy code
+<?php
+// Start the session
+session_start();
+
+// Check if the user is logged in
+if (!isset($_SESSION['username'])) {
+    // Redirect to the login page or handle unauthorized access
+    header("Location: login.php");
+    exit();
+}
+
+// Database connection setup (replace with your actual connection details)
+$servername = "localhost";
+$username = "your_username";
+$password = "your_password";
+$dbname = "your_database";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Calculate total credits assigned
+$creditsQuery = "SELECT SUM(credit_amount) AS total_credits FROM credits_assignment WHERE employees_id = 69001";
+$creditsResult = $conn->query($creditsQuery);
+$creditsData = $creditsResult->fetch_assoc();
+$totalCredits = $creditsData['total_credits'];
+
+// Calculate total sales amount
+$salesQuery = "SELECT SUM(sales_amount) AS total_sales FROM sales_data WHERE employees_id = 69001";
+$salesResult = $conn->query($salesQuery);
+$salesData = $salesResult->fetch_assoc();
+$totalSales = $salesData['total_sales'];
+
+// Calculate credit balance
+$creditBalance = $totalCredits - $totalSales;
+
+// Close the database connection
+$conn->close();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +55,7 @@
     <link rel="stylesheet" href="home_style.css" />
     <title>OneFamilyHR - Home</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-     <script src="home.js"></script>
+    <script src="home.js"></script>
 </head>
 
 <body>
@@ -21,6 +69,7 @@
                 <ul>
                     <li><a href="profile.php">Profile</a></li>
                     <li><a href="contact.php">Contact</a></li>
+                    <li><a href="logout.php">Sign out</a></li>
                 </ul>
             </nav>
         </div>
@@ -28,11 +77,11 @@
 
     <div class="user-welcome" id="userWelcome">
         <h2>Welcome, <span id="userName">
-        <?php
+                <?php
         session_start(); // Start the session if not already started
         echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
         ?>
-        </span></h2>
+            </span></h2>
         <div class="collection">
             <section class="credit-balance">
                 <h3>Credit Balance</h3>
