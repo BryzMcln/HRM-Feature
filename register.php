@@ -1,3 +1,39 @@
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    include 'db_conn.php'; // Include your database connection file
+
+    // Collect user input
+    $firstName = $_POST['first_name'];
+    $lastName = $_POST['last_name'];
+    $email = $_POST['email'];
+    $phoneNum = $_POST['phone_num'];
+    $password = $_POST['password'];
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
+
+    // Prepare and execute SQL query to insert data into the employees table
+    $sql = "INSERT INTO employees (first_name, last_name, email, contactno, password) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+
+    // Bind parameters to the query
+    $stmt->bind_param("sssss", $firstName, $lastName, $email, $phoneNum, $hashedPassword);
+
+    // Execute the query
+    if ($stmt->execute()) {
+        // Registration successful
+        echo "Registration successful!";
+        // Redirect to a success page or perform other actions
+    } else {
+        // Registration failed
+        echo "Registration failed: " . $stmt->error;
+        // Handle the failure (e.g., show an error message)
+    }
+
+    // Close the statement and database connection
+    $stmt->close();
+    $conn->close();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
