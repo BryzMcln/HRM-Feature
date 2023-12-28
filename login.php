@@ -3,27 +3,37 @@ include 'db_conn.php'; // Include the database connection file
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_POST['submit'])) {
+        $username = $_POST['username'];
         $email = $_POST['email'];
         $password = $_POST['password'];
 
         // Prepare and bind the SQL statement with parameters
-        $stmt = $conn->prepare("SELECT * FROM user WHERE email=? AND password=?");
-        $stmt->bind_param("ss", $email, $password);
+        $stmt = $conn->prepare("SELECT employees.email, user.username, user.password FROM employees 
+                                INNER JOIN user ON employees.email = ? AND user.username = ? AND user.password = ?");
+        $stmt->bind_param("sss", $email, $username, $password);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            // User found, redirect to dashboard or another page
+            // User found, update last login and redirect to dashboard or another page
+            $currentTime = date('Y-m-d H:i:s');
+
+            // Update last login time for the user
+            $updateQuery = "UPDATE user SET last_login = ? WHERE username = ?";
+            $stmtUpdate = $conn->prepare($updateQuery);
+            $stmtUpdate->bind_param("ss", $currentTime, $username);
+            $stmtUpdate->execute();
+            $stmtUpdate->close();
+
             header("Location: home.php");
             exit();
         } else {
             // Invalid credentials
-            echo "<script>alert('Invalid email or password');</script>";
+            echo "<script>alert('Invalid email, username, or password');</script>";
         }
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
