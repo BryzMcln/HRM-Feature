@@ -27,15 +27,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $stmtInsertUser = $conn->prepare($insertUserQuery);
         $stmtInsertUser->bind_param("iss", $employeeId, $firstName, $hashedPassword);
         
+        // After successful user registration
         if ($stmtInsertUser->execute()) {
             // User created successfully
-            //echo "User created successfully!";
-            // Redirect to a success page or perform other actions
+            // Redirect to login page
+            header("Location: login.php");
+            exit(); // Ensure no further code execution after redirection
         } else {
-            // User creation failed
+            // Handle the failure
             echo "User creation failed: " . $stmtInsertUser->error;
             // Handle the failure (e.g., show an error message)
         }
+
         
         $stmtInsertUser->close();
     } else {
