@@ -82,26 +82,20 @@ nav a:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+    padding: 20px;
 }
 
 .credit-balance,
-.rewards {
-    flex: 1 1 45%;
+.rewards,
+.graph {
+    flex: 1 1 25%;
     margin-bottom: 20px;
 }
 
-/* Credit Balance Section */
-.credit-balance {
-    margin: 1rem auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 0.25rem;
-    max-width: 600px;
-    text-align: center;
-    margin-right: 10px;
-}
 
 .credit-balance h2 {
     font-size: 2.5rem;
@@ -117,15 +111,31 @@ nav a:hover {
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.credit-balance {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 0.25rem;
+    max-width: 150px;
+    text-align: center;
+    margin-right: 10px;
+    padding: 10px;
 }
 
 .rewards {
-    margin: 15px auto;
     padding: 15px;
     background-color: #f8f9fa;
     border-radius: 0.25rem;
-    max-width: 600px;
+    max-width: 450px;
     text-align: left;
+    padding: 15px;
+}
+
+.graph {
+    max-width: 900px;
+    text-align: center;
 }
 
 .rewards h3 {
@@ -140,7 +150,6 @@ nav a:hover {
 }
 
 .rewards li {
-    margin: 0;
     padding-left: 5px;
 }
 
@@ -153,12 +162,11 @@ nav a:hover {
     border-bottom-right-radius: 5px;
 }
 
-.graph {
-    margin: 0 auto;
-    max-width: 900px;
-    text-align: center;
+
+.redeem_bt button:hover {
+    background-color: #942709;
 }
 
 #line_top_x {
-    margin: 0 auto;
+    margin: 10;
 }

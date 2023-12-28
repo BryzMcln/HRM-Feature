@@ -123,12 +123,12 @@ if (isset($_SESSION['user_id'])) {
                 <h3>Credit Balance</h3>
                 <h2><span id='creditBalance'>
                         <?php echo $creditBalance; ?>
-                    </span></h2>
-                <a href="redeem.php"><button>Redeem</button></a>
+                    </span></h2>    
+                <a href="redeem.php" class="redeem_bt"><button>Redeem Credits</button></a>
                 <p>Max: 500.00</p>
             </section>
 
-            <!-- <section class="rewards">
+            <section class="rewards">
                 <h3>Rewards</h3>
                 <ul>
                     <li>
@@ -148,7 +148,7 @@ if (isset($_SESSION['user_id'])) {
                         </p>
                     </li>
                 </ul>
-            </section> -->
+            </section>
             <section class="graph">
                 <div id="line_top_x"></div>
             </section>
