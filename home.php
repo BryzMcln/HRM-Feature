@@ -58,9 +58,8 @@ $conn->close();
         <div class="collection">
             <section class="credit-balance">
                 <h3>Credit Balance</h3>
-                <p>Credits:</p>
-                <h1><span></span>305.75</h1>
-                <button>Redeem</button>
+                <h2><span id='creditBalance'><?php echo $creditBalance; ?></span></h2>
+                <button onclick="redeemCredits()">Redeem</button>
                 <p>Max: 500.00</p>
             </section>
 
