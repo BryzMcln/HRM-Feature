@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
 
     // Check if the user exists based on provided details (e.g., first name, last name, email, contact number)
-    $checkUserQuery = "SELECT idemployees FROM employees WHERE first_name = ? AND last_name = ? AND email = ? AND contactno = ?";
+    $checkUserQuery = "SELECT idemployees, email FROM employees WHERE first_name = ? AND last_name = ? AND email = ? AND contactno = ?";
     $stmtCheck = $conn->prepare($checkUserQuery);
     $stmtCheck->bind_param("ssss", $firstName, $lastName, $email, $phoneNum);
     $stmtCheck->execute();
@@ -21,24 +21,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         // User exists, proceed to create a user in the 'user' table
         $employeeData = $result->fetch_assoc();
         $employeeId = $employeeData['idemployees'];
+        $employeeEmail = $employeeData['email'];
 
-        // Insert user into the 'user' table along with the fetched employee ID
-        $insertUserQuery = "INSERT INTO user (user_id, employees_id, username, password, created_at) VALUES (DEFAULT, ?, ?, ?, NOW())";
+        // Insert user into the 'user' table along with the fetched employee ID and email
+        $insertUserQuery = "INSERT INTO user (user_id, employees_id, employee_email, username, password, created_at) VALUES (DEFAULT, ?, ?, ?, ?, NOW())";
         $stmtInsertUser = $conn->prepare($insertUserQuery);
-        $stmtInsertUser->bind_param("iss", $employeeId, $firstName, $hashedPassword);
+        $stmtInsertUser->bind_param("iss", $employeeId, $employeeEmail, $firstName, $hashedPassword);
         
-        // After successful user registration
         if ($stmtInsertUser->execute()) {
             // User created successfully
-            // Redirect to login page
-            header("Location: login.php");
-            exit(); // Ensure no further code execution after redirection
+            echo "User created successfully!";
+            // Redirect to a success page or perform other actions
         } else {
-            // Handle the failure
+            // User creation failed
             echo "User creation failed: " . $stmtInsertUser->error;
             // Handle the failure (e.g., show an error message)
         }
-
         
         $stmtInsertUser->close();
     } else {

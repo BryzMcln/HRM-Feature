@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($result->num_rows > 0) {
             // User found, redirect to dashboard or another page
-            header("Location: dashboard.php");
+            header("Location: home.php");
             exit();
         } else {
             // Invalid credentials
@@ -39,6 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="login-container">
         <form action="" method="post" class="login-form">
             <h1>Login</h1>
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required />
 
             <label for="email">Email:</label>
             <input type="text" id="email" name="email" required />
