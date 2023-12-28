@@ -1,24 +1,23 @@
 <?php
 include 'db_conn.php';
 
-// Calculate total credits assigned
+
 $creditsQuery = "SELECT SUM(credit_amount) AS total_credits FROM credits_assignment WHERE employees_id = 69001";
 $creditsResult = $conn->query($creditsQuery);
 $creditsData = $creditsResult->fetch_assoc();
-$totalCredits = $creditsData['total_credits'];
+$totalCredits = $creditsData['total_credits'] ?? 0; // Set default to 0 if no credits found
 
-// Calculate total sales amount
+
 $salesQuery = "SELECT SUM(sales_amount) AS total_sales FROM sales_data WHERE employees_id = 69001";
 $salesResult = $conn->query($salesQuery);
 $salesData = $salesResult->fetch_assoc();
-$totalSales = $salesData['total_sales'];
+$totalSales = $salesData['total_sales'] ?? 0; // Set default to 0 if no sales found
 
-// Calculate credit balance
 $creditBalance = $totalCredits - $totalSales;
 
-// Close the database connection
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
