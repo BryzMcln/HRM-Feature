@@ -1,32 +1,5 @@
-
-Absolutely! Here's a more organized separation of the PHP code for calculating the credit balance from the HTML content:
-
-php
-Copy code
 <?php
-// Start the session
-session_start();
-
-// Check if the user is logged in
-if (!isset($_SESSION['username'])) {
-    // Redirect to the login page or handle unauthorized access
-    header("Location: login.php");
-    exit();
-}
-
-// Database connection setup (replace with your actual connection details)
-$servername = "localhost";
-$username = "your_username";
-$password = "your_password";
-$dbname = "your_database";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include 'db_conn.php';
 
 // Calculate total credits assigned
 $creditsQuery = "SELECT SUM(credit_amount) AS total_credits FROM credits_assignment WHERE employees_id = 69001";
