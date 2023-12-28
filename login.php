@@ -1,37 +1,45 @@
 <?php
-include 'db_conn.php'; // Include the database connection file
+include 'db_conn.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['submit'])) {
-        $username = $_POST['username'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-        // Prepare and bind the SQL statement with parameters
-        $stmt = $conn->prepare("SELECT * FROM user WHERE username=? AND employee_email=? AND password=?");
-        $stmt->bind_param("sss", $username, $email, $password);
+    // Prepare SQL statement with parameters for username
+    $stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
+    $stmt->bind_param("s", $username);
 
-        // For debugging: print the executed SQL query
-        echo "SQL Query: " . $stmt->sqlstate;
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
 
-        if (!$stmt->execute()) {
-            echo "Query Execution Error: " . $stmt->error;
-        } else {
-            $result = $stmt->get_result();
-            echo "Number of rows fetched: " . $result->num_rows; // Add this line for debugging
+        if ($result->num_rows > 0) {
+            // Fetch the user data
+            $user = $result->fetch_assoc();
+            $storedPassword = $user['password'];
 
-            if ($result->num_rows > 0) {
-                // User found, redirect to dashboard or another page
+            // Verify the password
+            if (password_verify($password, $storedPassword)) {
+                // Password is correct, redirect to dashboard or another page
                 header("Location: home.php");
                 exit();
             } else {
-                // Invalid credentials
-                echo "<script>alert('Invalid email, username, or password');</script>";
+                // Invalid password
+                echo "<script>alert('Invalid password');</script>";
             }
+        } else {
+            // Invalid username
+            echo "<script>alert('Invalid username');</script>";
         }
+    } else {
+        // Error in execution
+        echo "Query Execution Error: " . $stmt->error;
     }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
