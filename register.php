@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <input type="password" id="confirm_password" name="confirm_password" required />
 
             <button type="submit" name="submit">Register</button>
-            <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
+            <p class="login-link">Already have an account? <a href="login.php">Login here</a></p>
         </form>
     </div>
 </body>

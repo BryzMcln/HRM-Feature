@@ -6,9 +6,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
-        // SQL query to check if the user exists
-        $sql = "SELECT * FROM user WHERE email='$email' AND password='$password'";
-        $result = $conn->query($sql);
+        // Prepare and bind the SQL statement with parameters
+        $stmt = $conn->prepare("SELECT * FROM user WHERE email=? AND password=?");
+        $stmt->bind_param("ss", $email, $password);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             // User found, redirect to dashboard or another page
@@ -21,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <button type="submit" name="submit">Log In</button>
             <p class="register-link">
-                Don't have an account? <a href="register.html">Register now!</a>
+                Don't have an account? <a href="register.php">Register now!</a>
             </p>
         </form>
     </div>
