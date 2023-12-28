@@ -76,7 +76,7 @@ if (isset($_SESSION['user_id'])) {
                 <h3>Credit Balance</h3>
                 <h2><span id='creditBalance'><?php echo $creditBalance; ?></span></h2>
                 <button>Recieve Credits</button>
-                <button><a href="redeem.html">Redeem Credits</a></button>
+                <button>Redeem Credits</button>
                 <p>Max: 500.00</p>
             </section>
 
