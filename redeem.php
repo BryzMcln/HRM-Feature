@@ -54,6 +54,7 @@ if (isset($_SESSION['user_id'])) {
             </div>
             <nav>
                 <ul>
+                    <li><a href="home.php">Home</a></li>
                     <li><a href="profile.php">Profile</a></li>
                     <li><a href="contact.php">Contact</a></li>
                     <li><a href="logout.php">Sign out</a></li>
@@ -72,16 +73,17 @@ if (isset($_SESSION['user_id'])) {
                     </span></h2>
                 <a href="redeem.php" class="redeem_bt"><button>Redeem</button></a>
                 <p>Max: 500.00</p>
-            </section>
-            <section class="educ">
-                <h1>Education</h1>
-            </section>
-            <section class="loadn">
-                <h1>Loan</h1>
-            </section>
-            <section class="Health Care">
-                <h1>Job</h1>
-            </section>
+        </div>
+        <div class="options">
+                <section class="educ">
+                    <h1>Education</h1>
+                </section>
+                <section class="loadn">
+                    <h1>Loan</h1>
+                </section>
+                <section class="job">
+                    <h1>Job</h1>
+                </section>
         </div>
     </div>
 </body>

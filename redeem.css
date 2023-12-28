@@ -112,3 +112,18 @@ nav a:hover {
     border-radius: 0.25rem;
     cursor: pointer;
 }
+
+.option section {
+    display: flex;
+}
+
+.educ,
+.loadn,
+.job {
+    background-color: #FFFFFF;
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    max-width: 250px;
+    display: flex;
+}
