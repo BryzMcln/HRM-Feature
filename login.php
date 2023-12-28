@@ -10,20 +10,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Prepare and bind the SQL statement with parameters
         $stmt = $conn->prepare("SELECT * FROM user WHERE username=? AND employee_email=? AND password=?");
         $stmt->bind_param("sss", $username, $email, $password);
-        $stmt->execute();
-        $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
-            // User found, update last_login field and redirect
-            $updateStmt = $conn->prepare("UPDATE user SET last_login = NOW() WHERE username=? AND employee_email=?");
-            $updateStmt->bind_param("ss", $username, $email);
-            $updateStmt->execute();
+        // For debugging: print the executed SQL query
+        echo "SQL Query: " . $stmt->sqlstate;
 
-            header("Location: home.php");
-            exit();
+        if (!$stmt->execute()) {
+            echo "Query Execution Error: " . $stmt->error;
         } else {
-            // Invalid credentials
-            echo "<script>alert('Invalid email, username, or password');</script>";
+            $result = $stmt->get_result();
+            echo "Number of rows fetched: " . $result->num_rows; // Add this line for debugging
+
+            if ($result->num_rows > 0) {
+                // User found, redirect to dashboard or another page
+                header("Location: home.php");
+                exit();
+            } else {
+                // Invalid credentials
+                echo "<script>alert('Invalid email, username, or password');</script>";
+            }
         }
     }
 }
