@@ -2,26 +2,34 @@
 include 'db_conn.php';
 $creditBalance = 0;
 
-// Check if user is logged in and the user ID is set in the session
-if(isset($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
     // Calculate total credits assigned for the logged-in user
     $creditsQuery = "SELECT SUM(credit_amount) AS total_credits FROM credits_assignment WHERE employees_id = $userId";
     $creditsResult = $conn->query($creditsQuery);
-    $creditsData = $creditsResult->fetch_assoc();
-    $totalCredits = $creditsData['total_credits'] ?? 0; // Set default to 0 if no credits found
+
+    if ($creditsResult) {
+        $creditsData = $creditsResult->fetch_assoc();
+        $totalCredits = $creditsData['total_credits'] ?? 0; // Set default to 0 if no credits found
+    } else {
+        echo "Error fetching total credits: " . $conn->error;
+    }
 
     // Calculate total sales amount for the logged-in user
     $salesQuery = "SELECT SUM(sales_amount) AS total_sales FROM sales_data WHERE employees_id = $userId";
     $salesResult = $conn->query($salesQuery);
-    $salesData = $salesResult->fetch_assoc();
-    $totalSales = $salesData['total_sales'] ?? 0; // Set default to 0 if no sales found
+
+    if ($salesResult) {
+        $salesData = $salesResult->fetch_assoc();
+        $totalSales = $salesData['total_sales'] ?? 0; // Set default to 0 if no sales found
+    } else {
+        echo "Error fetching total sales: " . $conn->error;
+    }
 
     // Calculate credit balance for the logged-in user
     $creditBalance = $totalCredits - $totalSales;
 
-    // Close the database connection
     $conn->close();
 } else {
     // Handle case where user is not logged in or user ID is not set in session
