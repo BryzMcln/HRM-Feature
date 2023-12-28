@@ -35,7 +35,6 @@ if (isset($_SESSION['user_id'])) {
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,6 +45,54 @@ if (isset($_SESSION['user_id'])) {
     <title>OneFamilyHR - Home</title>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="home.js"></script>
+    <script>
+        google.charts.load("current", { packages: ["line"] });
+        google.charts.setOnLoadCallback(fetchSalesData);
+
+        function fetchSalesData() {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                    var salesData = JSON.parse(this.responseText);
+                    drawChart(salesData);
+                }
+            };
+            xhr.open("GET", "fetch_sales_data.php", true);
+            xhr.send();
+        }
+
+        function drawChart(salesData) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'Month');
+            data.addColumn('number', 'Sales');
+
+            var chartData = [];
+            for (var month in salesData) {
+                chartData.push([parseInt(month), salesData[month]]);
+            }
+
+            data.addRows(chartData);
+
+            var options = {
+                chart: {
+                    title: 'Sales Chart',
+                    subtitle: 'Sales by Month'
+                },
+                width: 900,
+                height: 500,
+                axes: {
+                    x: {
+                        0: { side: 'top' }
+                    }
+                }
+            };
+
+            var chart = new google.charts.Line(document.getElementById('line_top_x'));
+            chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+    </script>
+
+
 </head>
 
 <body>
@@ -74,7 +121,9 @@ if (isset($_SESSION['user_id'])) {
         <div class="collection">
             <section class="credit-balance">
                 <h3>Credit Balance</h3>
-                <h2><span id='creditBalance'><?php echo $creditBalance; ?></span></h2>
+                <h2><span id='creditBalance'>
+                        <?php echo $creditBalance; ?>
+                    </span></h2>
                 <button>Recieve Credits</button>
                 <button>Redeem Credits</button>
                 <p>Max: 500.00</p>
