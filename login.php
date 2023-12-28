@@ -8,22 +8,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['password'];
 
         // Prepare and bind the SQL statement with parameters
-        $stmt = $conn->prepare("SELECT employees.email, user.username, user.password FROM employees 
-                                INNER JOIN user ON employees.email = ? AND user.username = ? AND user.password = ?");
-        $stmt->bind_param("sss", $email, $username, $password);
+        $stmt = $conn->prepare("SELECT * FROM user WHERE username=? AND employee_email=? AND password=?");
+        $stmt->bind_param("sss", $username, $email, $password);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            // User found, update last login and redirect to dashboard or another page
-            $currentTime = date('Y-m-d H:i:s');
-
-            // Update last login time for the user
-            $updateQuery = "UPDATE user SET last_login = ? WHERE username = ?";
-            $stmtUpdate = $conn->prepare($updateQuery);
-            $stmtUpdate->bind_param("ss", $currentTime, $username);
-            $stmtUpdate->execute();
-            $stmtUpdate->close();
+            // User found, update last_login field and redirect
+            $updateStmt = $conn->prepare("UPDATE user SET last_login = NOW() WHERE username=? AND employee_email=?");
+            $updateStmt->bind_param("ss", $username, $email);
+            $updateStmt->execute();
 
             header("Location: home.php");
             exit();
@@ -33,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
+?>
+
 ?>
 
 <!DOCTYPE html>
