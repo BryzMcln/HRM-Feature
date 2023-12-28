@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         
         if ($stmtInsertUser->execute()) {
             // User created successfully
-            echo "User created successfully!";
+            //echo "User created successfully!";
             // Redirect to a success page or perform other actions
         } else {
             // User creation failed
