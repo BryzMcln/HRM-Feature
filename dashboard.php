@@ -6,37 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="home_style.css" />
     <title>OneFamilyHR - Home</title>
-    <script>
-        history.pushState(null, null, document.URL);
-        window.addEventListener('popstate', function () {
-            history.pushState(null, null, document.URL);
-        });
-    </script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', { 'packages': ['corechart'] });
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Year', 'Sales', 'Expenses'],
-                ['2004', 1000, 400],
-                ['2005', 1170, 460],
-                ['2006', 660, 1120],
-                ['2007', 1030, 540]
-            ]);
-
-            var options = {
-                title: 'Company Performance',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
-
-            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-
-            chart.draw(data, options);
-        }
-    </script>
+     <script src="home.js"></script>
 </head>
 
 <body>
@@ -63,8 +34,7 @@
             <section class="credit-balance">
                 <h3>Credit Balance</h3>
                 <p>Credits:</p>
-                <h1>305.75</h1>
-                <button>View Details</button>
+                <h1><span></span>305.75</h1>
                 <button>Redeem</button>
                 <p>Max: 500.00</p>
             </section>
@@ -90,8 +60,8 @@
                     </li>
                 </ul>
             </section>
-            <section>
-                <div id="curve_chart" style="width: 900px; height: 500px"></div>
+            <section class="graph">
+                <div id="line_top_x"></div>
             </section>
         </div>
     </div>
