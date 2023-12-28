@@ -124,7 +124,7 @@ if (isset($_SESSION['user_id'])) {
                 <h2><span id='creditBalance'>
                         <?php echo $creditBalance; ?>
                     </span></h2>    
-                <a href="redeem.php" class="redeem_bt"><button>Redeem Credits</button></a>
+                <a href="redeem.php" class="redeem_bt"><button>Redeem</button></a>
                 <p>Max: 500.00</p>
             </section>
 
