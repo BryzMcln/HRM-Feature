@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
 
     // Check if the user exists based on provided details (e.g., first name, last name, email, contact number)
-    $checkUserQuery = "SELECT idemployees, email FROM employees WHERE first_name = ? AND last_name = ? AND email = ? AND contactno = ?";
+    $checkUserQuery = "SELECT idemployees FROM employees WHERE first_name = ? AND last_name = ? AND email = ? AND contactno = ?";
     $stmtCheck = $conn->prepare($checkUserQuery);
     $stmtCheck->bind_param("ssss", $firstName, $lastName, $email, $phoneNum);
     $stmtCheck->execute();
@@ -21,16 +21,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         // User exists, proceed to create a user in the 'user' table
         $employeeData = $result->fetch_assoc();
         $employeeId = $employeeData['idemployees'];
-        $employeeEmail = $employeeData['email'];
 
-        // Insert user into the 'user' table along with the fetched employee ID and email
-        $insertUserQuery = "INSERT INTO user (user_id, employees_id, employee_email, username, password, created_at) VALUES (DEFAULT, ?, ?, ?, ?, NOW())";
+        // Insert user into the 'user' table along with the fetched employee ID
+        $insertUserQuery = "INSERT INTO user (user_id, employees_id, username, password, created_at) VALUES (DEFAULT, ?, ?, ?, NOW())";
         $stmtInsertUser = $conn->prepare($insertUserQuery);
-        $stmtInsertUser->bind_param("iss", $employeeId, $employeeEmail, $firstName, $hashedPassword);
+        $stmtInsertUser->bind_param("iss", $employeeId, $firstName, $hashedPassword);
         
         if ($stmtInsertUser->execute()) {
             // User created successfully
-            echo "User created successfully!";
+            //echo "User created successfully!";
             // Redirect to a success page or perform other actions
         } else {
             // User creation failed
@@ -84,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <input type="password" id="confirm_password" name="confirm_password" required />
 
             <button type="submit" name="submit">Register</button>
-            <p class="login-link">Already have an account? <a href="login.php">Login here</a></p>
+            <p class="login-link">Already have an account? <a href="login.html">Login here</a></p>
         </form>
     </div>
 </body>
