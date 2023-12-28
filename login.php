@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
             // Verify the password
             if (password_verify($password, $storedPassword)) {
+                session_start(); // Start the session
+                $_SESSION['username'] = $username; // Set the username in the session
                 // Password is correct, redirect to dashboard or another page
                 header("Location: home.php");
                 exit();

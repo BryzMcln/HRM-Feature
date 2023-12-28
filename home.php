@@ -28,8 +28,11 @@
 
     <div class="user-welcome" id="userWelcome">
         <h2>Welcome, <span id="userName">
-                <?php echo isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest'; ?>
-            </span></h2> <!-- Displaying the user's name or 'Guest' -->
+        <?php
+        session_start(); // Start the session if not already started
+        echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+        ?>
+        </span></h2>
         <div class="collection">
             <section class="credit-balance">
                 <h3>Credit Balance</h3>
