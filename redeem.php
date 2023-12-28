@@ -73,6 +73,15 @@ if (isset($_SESSION['user_id'])) {
                 <a href="redeem.php" class="redeem_bt"><button>Redeem</button></a>
                 <p>Max: 500.00</p>
             </section>
+            <section class="educ">
+                <h1>Education</h1>
+            </section>
+            <section class="loadn">
+                <h1>Loan</h1>
+            </section>
+            <section class="Health Care">
+                <h1>Job</h1>
+            </section>
         </div>
     </div>
 </body>
