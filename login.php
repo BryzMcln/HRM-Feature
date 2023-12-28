@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             <input type="text" id="username" name="username" required />
 
             <label for="email">Email:</label>
-            <input type="text" id="email" name="email" required />
+            <input type="email" id="email" name="email" required />
 
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required />
