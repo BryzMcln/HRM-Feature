@@ -1,9 +1,11 @@
+/* Global Styles */
 body {
-    background-color: #FDEFDA;
-    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-        "Lucida Sans", Arial, sans-serif;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
+/* Header Styles */
 header {
     background-color: #D34937;
     padding: 20px;
@@ -40,22 +42,18 @@ header {
     color: #F8EFEF;
 }
 
-nav {
-    margin-top: 10px;
-}
-
-ul {
+nav ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-li {
+nav li {
     display: inline;
     margin-right: 20px;
 }
 
-a {
+nav a {
     text-decoration: none;
     color: #F8EFEF;
     font-weight: bold;
@@ -65,35 +63,36 @@ a {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-a:hover {
+nav a:hover {
     background-color: #942709;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
     color: #FFFFFF;
 }
 
+/* User Welcome Section */
 .user-welcome {
     background-color: #F8EFEF;
-    padding: 10px;
+    padding: 20px;
     margin: 20px 0;
     text-align: center;
     border-radius: 8px;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
-h2 {
-    color: #D34937;
-}
-
+/* Credit Balance Section */
 .credit-balance {
-    margin: 1rem;
-    padding: 50px;
+    margin: 1rem auto;
+    padding: 20px;
     background-color: #f8f9fa;
     border-radius: 0.25rem;
+    max-width: 600px;
+    text-align: center;
 }
 
 .credit-balance h1 {
     font-size: 2.5rem;
     color: #D34937;
+    margin-bottom: 10px;
 }
 
 .credit-balance button {
@@ -107,25 +106,27 @@ h2 {
 }
 
 .rewards {
-    margin: 15px;
+    margin: 15px auto;
     padding: 15px;
     background-color: #f8f9fa;
     border-radius: 0.25rem;
+    max-width: 600px;
+    text-align: left;
 }
 
 .rewards h3 {
-    margin: 0px;
+    margin: 0;
     font-size: 18px;
 }
 
 .rewards ul {
     list-style-type: none;
     padding: 0;
-    text-align: left;
+    margin-top: 10px;
 }
 
 .rewards li {
-    margin: 0px;
+    margin: 0;
     padding-left: 5px;
 }
 
@@ -136,4 +137,14 @@ h2 {
     background-color: #F8EFEF;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+.graph {
+    margin: 0 auto;
+    max-width: 900px;
+    text-align: center;
+}
+
+#line_top_x {
+    margin: 0 auto;
 }
