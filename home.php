@@ -1,42 +1,39 @@
 <?php
+session_start();
 include 'db_conn.php';
-$creditBalance = 0;
 
+$creditBalance = 0; 
+// Check if user is logged in and the user ID is set in the session
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
-    // Calculate total credits assigned for the logged-in user
-    $creditsQuery = "SELECT SUM(credit_amount) AS total_credits FROM credits_assignment WHERE employees_id = $userId";
+    // Fetch total credits for the logged-in user
+    $creditsQuery = "SELECT SUM(ca.credit_amount) AS total_credits
+        FROM credits_assignment ca
+        JOIN user u ON ca.employees_id = u.employees_id
+        WHERE u.user_id = $userId";
+
     $creditsResult = $conn->query($creditsQuery);
+
 
     if ($creditsResult) {
         $creditsData = $creditsResult->fetch_assoc();
-        $totalCredits = $creditsData['total_credits'] ?? 0; // Set default to 0 if no credits found
+        $totalCredits = $creditsData['total_credits']; // Set default to 0 if no credits found
+
+        // Set the credit balance for the logged-in user
+        $creditBalance = $totalCredits;
     } else {
-        echo "Error fetching total credits: " . $conn->error;
+        echo "Error fetching credit data: " . $conn->error;
     }
 
-    // Calculate total sales amount for the logged-in user
-    $salesQuery = "SELECT SUM(sales_amount) AS total_sales FROM sales_data WHERE employees_id = $userId";
-    $salesResult = $conn->query($salesQuery);
-
-    if ($salesResult) {
-        $salesData = $salesResult->fetch_assoc();
-        $totalSales = $salesData['total_sales'] ?? 0; // Set default to 0 if no sales found
-    } else {
-        echo "Error fetching total sales: " . $conn->error;
-    }
-
-    // Calculate credit balance for the logged-in user
-    $creditBalance = $totalCredits - $totalSales;
-
+    // Close the database connection
     $conn->close();
 } else {
     // Handle case where user is not logged in or user ID is not set in session
     // Redirect or display an error message
 }
-?>
 
+?>
 
 
 <!DOCTYPE html>
@@ -71,15 +68,15 @@ if (isset($_SESSION['user_id'])) {
     <div class="user-welcome" id="userWelcome">
         <h2>Welcome, <span id="userName">
                 <?php
-        session_start(); // Start the session if not already started
-        echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-        ?>
+                echo isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+                ?>
             </span></h2>
         <div class="collection">
             <section class="credit-balance">
                 <h3>Credit Balance</h3>
                 <h2><span id='creditBalance'><?php echo $creditBalance; ?></span></h2>
-                <button onclick="redeemCredits()">Redeem</button>
+                <button>Recieve Credits</button>
+                <button><a href="redeem.html">Redeem Credits</a></button>
                 <p>Max: 500.00</p>
             </section>
 

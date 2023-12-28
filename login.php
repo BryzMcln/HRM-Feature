@@ -20,8 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             // Verify the password
             if (password_verify($password, $storedPassword)) {
                 session_start(); // Start the session
-                $_SESSION['username'] = $username; // Set the username in the session
-                // Password is correct, redirect to dashboard or another page
+                $_SESSION['user_id'] = $user['user_id']; // Set the user_id in the session
+                // Other session variables or settings can be added as needed
+                // Redirect to dashboard or another page
                 header("Location: home.php");
                 exit();
             } else {
@@ -41,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $conn->close();
 }
 ?>
+
 
 
 <!DOCTYPE html>
