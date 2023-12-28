@@ -10,29 +10,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $password = $_POST['password'];
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password
 
-    // Prepare and execute SQL query to insert data into the employees table
-    $sql = "INSERT INTO employees (first_name, last_name, email, contactno, password) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
+    // Check if the user exists based on provided details (e.g., first name, last name, email, contact number)
+    $checkUserQuery = "SELECT * FROM employees WHERE first_name = ? AND last_name = ? AND email = ? AND contactno = ?";
+    $stmtCheck = $conn->prepare($checkUserQuery);
+    $stmtCheck->bind_param("ssss", $firstName, $lastName, $email, $phoneNum);
+    $stmtCheck->execute();
+    $result = $stmtCheck->get_result();
 
-    // Bind parameters to the query
-    $stmt->bind_param("sssss", $firstName, $lastName, $email, $phoneNum, $hashedPassword);
-
-    // Execute the query
-    if ($stmt->execute()) {
-        // Registration successful
-        echo "Registration successful!";
-        // Redirect to a success page or perform other actions
+    if ($result->num_rows > 0) {
+        // User exists, proceed to create a user in the 'user' table
+        $insertUserQuery = "INSERT INTO user (username, password, created_at) VALUES (?, ?, NOW())";
+        $stmtInsertUser = $conn->prepare($insertUserQuery);
+        $stmtInsertUser->bind_param("ss", $firstName, $hashedPassword);
+        
+        if ($stmtInsertUser->execute()) {
+            // User created successfully
+            echo "User created successfully!";
+            // Redirect to a success page or perform other actions
+        } else {
+            // User creation failed
+            echo "User creation failed: " . $stmtInsertUser->error;
+            // Handle the failure (e.g., show an error message)
+        }
+        
+        $stmtInsertUser->close();
     } else {
-        // Registration failed
-        echo "Registration failed: " . $stmt->error;
-        // Handle the failure (e.g., show an error message)
+        // User doesn't exist, handle the case as needed
+        echo "No matching user found for registration.";
+        // Redirect or display a message to guide the user
     }
 
-    // Close the statement and database connection
-    $stmt->close();
+    $stmtCheck->close();
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
