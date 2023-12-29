@@ -75,7 +75,6 @@ nav a:hover {
     padding-top: 5px;
     margin: 20px 0;
     text-align: center;
-    border-radius: 8px;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
@@ -95,6 +94,7 @@ nav a:hover {
     max-width: 100%;
     text-align: center;
     margin-right: 10px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
 }
 
 .credit-balance h2 {
@@ -116,11 +116,35 @@ nav a:hover {
 .educ,
 .loadn,
 .job {
+    display: inline-block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: #FFFFFF;
-    padding: 30px;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    padding: 20px;
+    margin: 10px;
     max-width: 250px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.educ h1,
+.loadn h1,
+.job h1 {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.input_amount {
+    width: 80%;
+    margin-top: 10px;
+}
+
+.img_sec {
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
 }
 
 .btn {
@@ -131,4 +155,6 @@ nav a:hover {
     border: none;
     border-radius: 0.25rem;
     cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
 }

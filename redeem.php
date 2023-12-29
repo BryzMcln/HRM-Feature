@@ -33,42 +33,6 @@ if (isset($_SESSION['user_id'])) {
     // Handle case where user is not logged in or user ID is not set in session
     // Redirect or display an error message
 }
-
-// Handle credit redemption for Education, Loan, Job
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['option'])) {
-    // Assuming 'option' contains the benefit type (education, loan, job)
-    $option = $_POST['option'];
-
-    // Query the Benefits table to get credit cost for the selected option
-    $benefitQuery = "SELECT credit_cost FROM Benefits WHERE benefit_name = '$option'";
-    $benefitResult = $conn->query($benefitQuery);
-
-    if ($benefitResult) {
-        $benefitData = $benefitResult->fetch_assoc();
-        $creditCost = $benefitData['credit_cost'];
-
-        // Check if the user has enough credits to redeem for the selected benefit
-        if ($creditBalance >= $creditCost) {
-            // Update Credits_Benefits table with redemption details
-            $redeemQuery = "INSERT INTO Credits_Benefits (employee_id, benefit_id, credits_redeemed) VALUES ($userId, (SELECT benefit_id FROM Benefits WHERE benefit_name = '$option'), $creditCost)";
-            
-            if ($conn->query($redeemQuery) === TRUE) {
-                // Update user's total credits after redemption
-                $updateCreditsQuery = "UPDATE credits_assignment SET credit_amount = credit_amount - $creditCost WHERE employees_id = (SELECT employees_id FROM user WHERE user_id = $userId)";
-                $conn->query($updateCreditsQuery);
-
-                // Refresh the credit balance after redemption
-                // ... (Similar to the logic above to fetch and display the updated balance)
-            } else {
-                echo "Error redeeming credits: " . $conn->error;
-            }
-        } else {
-            echo "Insufficient credits to redeem for $option";
-        }
-    } else {
-        echo "Error fetching benefit details: " . $conn->error;
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -102,61 +66,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['option'])) {
     <div class="user-welcome" id="userWelcome">
         <h1>Redeem your Credit!</h1>
         <div class="collection">
+
+        </div>
+        <div class="options">
             <section class="credit-balance">
                 <h3>Credit Balance</h3>
                 <h2><span id='creditBalance'>
                         <?php echo $creditBalance; ?>
                     </span></h2>
                 <p>Max: 500.00</p>
-        </div>
-        <div class="options">
+            </section>
             <section class="educ">
                 <h1>Education</h1>
                 <img src="educ.png" class="img_sec" style="width: 100px; height: 100px;">
-                <button onclick="redeemCredits('education')" class="btn">Redeem</button>
+                <input type="number" min="1" max="500" placeholder="Enter credit amount" class="input_amount"
+                    name="educ_amount" id="educ_amount" required>
+                <button for="educ_amount" class="btn">Redeem</button>
             </section>
             <section class="loadn">
                 <h1>Loan</h1>
-                <img src="loan.png" class="img_sec" style="width: 100px; height: 100px;">
-                <button onclick="redeemCredits('loan')" class="btn">Redeem</button>
+                <img src="loan.png" class="img_sec" style="width: 100px; height: 100px; ">
+                <input type="number" min="1" max="500" placeholder="Enter credit amount" class="input_amount"
+                    name="loan_amount" id="loan_amount" required>
+                <button for="loan_amount" class="btn">Redeem</button>
 
             </section>
             <section class="job">
                 <h1>Job</h1>
                 <img src="job.png" class="img_sec" style="width: 95px; height: 95px;">
-                <button onclick="redeemCredits('job')" class="btn">Redeem</button>
+                <input type="number" min="1" max="500" placeholder="Enter credit amount" class="input_amount"
+                    name="job_amount" id="job_amount" required>
+                <button for="job_amount" class="btn">Redeem</button>
             </section>
-            <script>
-                function redeemCredits(option) {
-                    let creditsToRedeem = 100; // Set the credits to redeem, or fetch from user input
-
-                    // Create an XMLHttpRequest object
-                    let xhr = new XMLHttpRequest();
-
-                    // Specify the PHP endpoint handling the credit redemption
-                    let url = 'redeem_credits_endpoint.php';
-
-                    // Set up a POST request
-                    xhr.open('POST', url, true);
-                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-                    // Define what happens on successful data submission
-                    xhr.onreadystatechange = function () {
-                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                            if (xhr.status === 200) {
-                                console.log(`Credits redeemed successfully for ${option}`);
-                                // Handle success - update UI or show a success message
-                            } else {
-                                console.error('Redemption failed');
-                                // Handle failure - display an error message or take appropriate action
-                            }
-                        }
-                    };
-
-                    // Send the request with the chosen option and credits to redeem
-                    xhr.send(`option=${option}&credits=${creditsToRedeem}`);
-                }
-            </script>
         </div>
     </div>
 </body>
