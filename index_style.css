@@ -45,3 +45,7 @@ header {
     transform: scale(1.05);
     text-shadow: 1px 1px 5px #ea8c39;
 }
+
+img {
+    margin: auto;
+}
