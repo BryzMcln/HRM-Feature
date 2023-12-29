@@ -73,41 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-session_start();
-include 'db_conn.php';
-
-$creditBalance = 0;
-
-// Check if user is logged in and the user ID is set in the session
-if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
-
-    // Fetch total credits for the logged-in user
-    // (You might need to modify this query to match your updated database structure)
-    $creditsQuery = "SELECT total_credits 
-                 FROM credit_balance 
-                 WHERE employees_id = (SELECT employees_id FROM user WHERE user_id = $userId)";
-
-
-    $creditsResult = $conn->query($creditsQuery);
-
-    if ($creditsResult) {
-        $creditsData = $creditsResult->fetch_assoc();
-        $totalCredits = $creditsData['total_credits']; // Set default to 0 if no credits found
-
-        // Set the credit balance for the logged-in user
-        $creditBalance = $totalCredits;
-    } else {
-        echo "Error fetching credit data: " . $conn->error;
-    }
-
-    // Close the database connection
-    $conn->close();
-} else {
-    // Handle case where user is not logged in or user ID is not set in session
-    // Redirect or display an error message
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en">
