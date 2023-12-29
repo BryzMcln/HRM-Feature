@@ -9,6 +9,80 @@ if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
     // Fetch total credits for the logged-in user
+    $creditsQuery = "SELECT total_credits 
+                 FROM credit_balance 
+                 WHERE employees_id = (SELECT employees_id FROM user WHERE user_id = $userId)";
+
+    $creditsResult = $conn->query($creditsQuery);
+
+    if ($creditsResult) {
+        $creditsData = $creditsResult->fetch_assoc();
+        $totalCredits = $creditsData['total_credits'];
+
+        $creditBalance = $totalCredits;
+    } else {
+        echo "Error fetching credit data: " . $conn->error;
+    }
+
+    $conn->close();
+} else {
+    // Handle case where user is not logged in or user ID is not set in session
+    // Redirect or display an error message
+}
+
+// Handle form submission for credit redemption
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['option']) && isset($_POST['credit_amount'])) {
+        $option = $_POST['option'];
+        $amount = $_POST['credit_amount'];
+
+        $employeesQuery = "SELECT employees_id FROM user WHERE user_id = $userId";
+        $employeesResult = $conn->query($employeesQuery);
+
+        if ($employeesResult) {
+            $employeeData = $employeesResult->fetch_assoc();
+            $employeeId = $employeeData['employees_id'];
+
+            $reason = ''; // Set default reason
+            // Assign reason based on the selected option
+            if ($option === 'education') {
+                $reason = 'Education expense';
+            } elseif ($option === 'loan') {
+                $reason = 'Loan payment';
+            } elseif ($option === 'job') {
+                $reason = 'Job-related expense';
+            }
+
+            // Insert into credits_assignment table
+            $insertQuery = "INSERT INTO credits_assignment (employees_id, assigned_by_id, reason, credit_amount, date_assigned)
+                            VALUES ($employeeId, 0, '$reason', $amount, CURRENT_DATE)";
+
+            if ($conn->query($insertQuery) === TRUE) {
+                // Update credit_balance table
+                $updateQuery = "UPDATE credit_balance
+                                SET total_credits = total_credits - $amount
+                                WHERE employees_id = $employeeId";
+
+                if ($conn->query($updateQuery) === FALSE) {
+                    echo "Error updating credit balance: " . $conn->error;
+                }
+            } else {
+                echo "Error inserting credits assignment: " . $conn->error;
+            }
+        }
+    }
+}
+?>
+session_start();
+include 'db_conn.php';
+
+$creditBalance = 0;
+
+// Check if user is logged in and the user ID is set in the session
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+
+    // Fetch total credits for the logged-in user
     // (You might need to modify this query to match your updated database structure)
     $creditsQuery = "SELECT total_credits 
                  FROM credit_balance 
