@@ -74,6 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,6 +83,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="redeem.css" />
     <title>OneFamilyHR - Redeem</title>
+    <script>
+        // The redeemCredits function needs to pass the entered credit amount
+        function redeemCredits(option) {
+            let creditsToRedeem = document.getElementById(`${option}_amount`).value; // Get the entered credit amount
+
+            let xhr = new XMLHttpRequest();
+            let url = 'redeem.php'; // Update this URL to the same PHP file handling the form submission
+
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        console.log(`Credits redeemed successfully for ${option}`);
+                        // Handle success - update UI or show a success message
+                    } else {
+                        console.error('Redemption failed');
+                        // Handle failure - display an error message or take appropriate action
+                    }
+                }
+            };
+
+            // Send the request with the chosen option and entered credit amount
+            xhr.send(`option=${option}&credit_amount=${creditsToRedeem}`);
+        }
+    </script>
 </head>
 
 <body>
@@ -118,25 +146,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <section class="educ">
                 <h1>Education</h1>
                 <img src="educ.png" class="img_sec" style="width: 100px; height: 100px;">
-                <input type="number" min="1" max="500" placeholder="Enter credit amount" class="input_amount"
-                    name="educ_amount" id="educ_amount" required>
-                <button for="educ_amount" class="btn">Redeem</button>
+                <form method="POST" action="redeem.php"> <!-- Form for Education -->
+                    <input type="number" min="1" max="500" placeholder="Enter credit amount" class="input_amount"
+                        name="educ_amount" id="educ_amount" required>
+                    <button type="submit" name="option" value="education" class="btn">Redeem</button>
+                </form>
             </section>
             <section class="loadn">
                 <h1>Loan</h1>
                 <img src="loan.png" class="img_sec" style="width: 100px; height: 100px; ">
-                <input type="number" min="1" max="500" placeholder="Enter credit amount" class="input_amount"
-                    name="loan_amount" id="loan_amount" required>
-                <button for="loan_amount" class="btn">Redeem</button>
-
+                <form method="POST" action="redeem.php"> <!-- Form for Loan -->
+                    <input type="number" min="1" max="500" placeholder="Enter credit amount" class="input_amount"
+                        name="loan_amount" id="loan_amount" required>
+                    <button type="submit" name="option" value="loan" class="btn">Redeem</button>
+                </form>
             </section>
             <section class="job">
                 <h1>Job</h1>
                 <img src="job.png" class="img_sec" style="width: 95px; height: 95px;">
-                <input type="number" min="1" max="500" placeholder="Enter credit amount" class="input_amount"
-                    name="job_amount" id="job_amount" required>
-                <button for="job_amount" class="btn">Redeem</button>
+                <form method="POST" action="redeem.php"> <!-- Form for Job -->
+                    <input type="number" min="1" max="500" placeholder="Enter credit amount" class="input_amount"
+                        name="job_amount" id="job_amount" required>
+                    <button type="submit" name="option" value="job" class="btn">Redeem</button>
+                </form>
             </section>
+
         </div>
     </div>
 </body>
