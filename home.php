@@ -7,6 +7,20 @@ $creditBalance = 0;
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
+    // Fetch the username based on user_id
+    $usernameQuery = "SELECT username FROM user WHERE user_id = $userId";
+    $usernameResult = $conn->query($usernameQuery);
+
+    if ($usernameResult && $usernameResult->num_rows > 0) {
+        $userData = $usernameResult->fetch_assoc();
+        $username = $userData['username'];
+
+        // Display the username
+        $_SESSION['username'] = $username; // Set the username in the session
+    } else {
+        echo "Username not found.";
+    }
+
     // Fetch total credits for the logged-in user
     $creditsQuery = "SELECT SUM(ca.credit_amount) AS total_credits
         FROM credits_assignment ca
