@@ -12,7 +12,7 @@
     <header class="header-panel">
         <h1>Welcome, Family <span class="auto-type"></span></h1> <!-- type animation-->
     </header>
-    <img src="hello.png" alt="" class="hello" style="width: 500px; height: 450px;">
+    <img src="hello.png" alt="" class="hello" style="width: 550px; height: 450px;">
     <div class="button-container">
         <a href="login.php" class="custom-button">
             <p>Log In</p>
