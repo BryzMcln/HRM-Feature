@@ -22,10 +22,9 @@ if (isset($_SESSION['user_id'])) {
     }
 
     // Fetch total credits for the logged-in user
-    $creditsQuery = "SELECT SUM(ca.credit_amount) AS total_credits
-        FROM credits_assignment ca
-        JOIN user u ON ca.employees_id = u.employees_id
-        WHERE u.user_id = $userId";
+    $creditsQuery = "SELECT total_credits 
+                 FROM credit_balance 
+                 WHERE employees_id = (SELECT employees_id FROM user WHERE user_id = $userId)";
 
     $creditsResult = $conn->query($creditsQuery);
 

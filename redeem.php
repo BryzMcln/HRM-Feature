@@ -10,10 +10,10 @@ if (isset($_SESSION['user_id'])) {
 
     // Fetch total credits for the logged-in user
     // (You might need to modify this query to match your updated database structure)
-    $creditsQuery = "SELECT SUM(ca.credit_amount) AS total_credits
-        FROM credits_assignment ca
-        JOIN user u ON ca.employees_id = u.employees_id
-        WHERE u.user_id = $userId";
+    $creditsQuery = "SELECT total_credits 
+                 FROM credit_balance 
+                 WHERE employees_id = (SELECT employees_id FROM user WHERE user_id = $userId)";
+
 
     $creditsResult = $conn->query($creditsQuery);
 
@@ -71,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['option'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -113,25 +112,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['option'])) {
         <div class="options">
             <section class="educ">
                 <h1>Education</h1>
-                <form method="POST" action="redeem.php"> <!-- Modify the form to post data -->
-                    <input type="hidden" name="option" value="education"> <!-- Hidden input to specify option -->
-                    <button type="submit" class="btn">Redeem</button> <!-- Use a form submit button -->
-                </form>
+                <img src="educ.png" class="img_sec" style="width: 100px; height: 100px;">
+                <button onclick="redeemCredits('education')" class="btn">Redeem</button>
             </section>
             <section class="loadn">
                 <h1>Loan</h1>
-                <form method="POST" action="redeem.php"> <!-- Modify the form to post data -->
-                    <input type="hidden" name="option" value="loan"> <!-- Hidden input to specify option -->
-                    <button type="submit" class="btn">Redeem</button> <!-- Use a form submit button -->
-                </form>
+                <img src="loan.png" class="img_sec" style="width: 100px; height: 100px;">
+                <button onclick="redeemCredits('loan')" class="btn">Redeem</button>
+
             </section>
             <section class="job">
                 <h1>Job</h1>
-                <form method="POST" action="redeem.php"> <!-- Modify the form to post data -->
-                    <input type="hidden" name="option" value="job"> <!-- Hidden input to specify option -->
-                    <button type="submit" class="btn">Redeem</button> <!-- Use a form submit button -->
-                </form>
+                <img src="job.png" class="img_sec" style="width: 95px; height: 95px;">
+                <button onclick="redeemCredits('job')" class="btn">Redeem</button>
             </section>
+            <script>
+                function redeemCredits(option) {
+                    let creditsToRedeem = 100; // Set the credits to redeem, or fetch from user input
+
+                    // Create an XMLHttpRequest object
+                    let xhr = new XMLHttpRequest();
+
+                    // Specify the PHP endpoint handling the credit redemption
+                    let url = 'redeem_credits_endpoint.php';
+
+                    // Set up a POST request
+                    xhr.open('POST', url, true);
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                    // Define what happens on successful data submission
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                console.log(`Credits redeemed successfully for ${option}`);
+                                // Handle success - update UI or show a success message
+                            } else {
+                                console.error('Redemption failed');
+                                // Handle failure - display an error message or take appropriate action
+                            }
+                        }
+                    };
+
+                    // Send the request with the chosen option and credits to redeem
+                    xhr.send(`option=${option}&credits=${creditsToRedeem}`);
+                }
+            </script>
+        </div>
     </div>
 </body>
 
